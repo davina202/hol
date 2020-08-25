@@ -5,32 +5,31 @@ pipeline {
     }
 
     stages {
-        stage('Hello') {
-            steps {
-                echo 'Hello World'
-                
-            }
-        }
-        stage('build') {
+        
+       stage('build') {
             steps {
                 echo 'Hello build'
                 sh 'mvn clean'
-                sh 'mvn install'
+                sh  'mvn install'
                 sh 'mvn package'
-            }
-        }
-        stage('deploy') {
-            steps {
-                echo 'Hello deploy'
-               
             }
         }
         stage('test') {
             steps {
-                echo 'Hello test'
+                sh 'mvn test'
                 
             }
         }
+        stage ('build and publish image') {
+      steps {
+        script {
+          checkout scm
+          docker.withRegistry('', 'dockerUserID') {
+          def customImage = docker.build("davina202/hol-pipeline:${env.BUILD_ID}")
+          customImage.push()
+          }
+    }
+        
     }
 }
 
