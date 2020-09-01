@@ -5,7 +5,7 @@ pipeline {
     }
 
     stages {
-        
+
        stage('build') {
             steps {
                 echo 'Hello build'
@@ -17,7 +17,7 @@ pipeline {
         stage('test') {
             steps {
                 sh 'mvn test'
-                
+
             }
         }
         stage ('build and publish image') {
@@ -26,10 +26,12 @@ pipeline {
           checkout scm
           docker.withRegistry('', 'DockerRegistryID') {
           def customImage = docker.build("davina202/hol-pipeline:${env.BUILD_ID}")
+          def customImage1 = docker.build("davina202/hol-pipeline")
           customImage.push()
+           customImage1.push()
           }
     }
-        
+
     }
 }
     }
