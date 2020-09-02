@@ -33,16 +33,16 @@ pipeline {
           def customImage1 = docker.build("davina202/hol-pipeline")
           customImage.push()
            customImage1.push()
-          }
+}
     }
 
     }
 }
-    }
+    
 
-    stage ( 'deployment trigger'){
-          steps {
-            build 'hol-CD'
+        stage ( 'deployment trigger'){
+           steps {
+             build 'hol-CD'
 }
 }
 
